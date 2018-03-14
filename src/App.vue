@@ -34,6 +34,10 @@ export default {
   background-image: url("assets/images/img_1.png");
   background-size: cover;
 }
+nav .brand-logo {
+  color: #fff;
+  font-size: 1.5em;
+}
 
 main {
   flex: 1 0 auto;

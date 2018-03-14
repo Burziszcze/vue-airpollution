@@ -29,12 +29,12 @@
             <div class="collection">
               <a href="#!" class="collection-item"><span class="badge green">{{data.aqi}}</span><strong>Air quality index</strong></a>
               <a href="#!" class="collection-item"><span class="badge blue">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
-              <a href="#!" class="collection-item"><span class="badge red">{{data.co}}</span><strong>Carbon monoxide</strong></a>
-              <a href="#!" class="collection-item"><span class="badge red">{{data.so2}}</span><strong>Sulfur dioxide</strong></a>
-              <a href="#!" class="collection-item"><span class="badge red">{{data.no2}}</span><strong>Nitrogen dioxide</strong></a>              
-              <a href="#!" class="collection-item"><span class="badge red">{{data.o3}}</span><strong>Ozone</strong></a>
-              <a href="#!" class="collection-item"><span class="badge red">{{data.pm10}}</span><strong>PM10</strong></a>
-              <a href="#!" class="collection-item"><span class="badge red">{{data.pm25}}</span><strong>PM25</strong></a>
+              <a href="#!" class="collection-item"><span class="badge red">{{data.iaqi.co.v}}</span><strong>Carbon monoxide</strong></a>
+              <a href="#!" class="collection-item"><span class="badge red">{{data.iaqi.so2.v}}</span><strong>Sulfur dioxide</strong></a>
+              <a href="#!" class="collection-item"><span class="badge red">{{data.iaqi.no2.v}}</span><strong>Nitrogen dioxide</strong></a>              
+              <a href="#!" class="collection-item"><span class="badge red">{{data.iaqi.o3.v}}</span><strong>Ozone</strong></a>
+              <a href="#!" class="collection-item"><span class="badge red">{{data.iaqi.pm10.v}}</span><strong>PM10</strong></a>
+              <a href="#!" class="collection-item"><span class="badge red">{{data.iaqi.pm25.v}}</span><strong>PM25</strong></a>
             </div>
           </div>
         </div>
@@ -56,11 +56,24 @@ export default {
         aqi: this.data,
         dominentpol: this.data,
         iaqi: {
-          co: this.iaqi,
-          no2: this.iaqi,
-          o3: this.iaqi,
-          pm10: this.iaqi,
-          pm25: this.iaqi
+          co: {
+            v: this.iaqi
+          },
+          so2: {
+            v: this.iaqi
+          },
+          no2: {
+            v: this.iaqi
+          },
+          o3: {
+            v: this.iaqi
+          },
+          pm10: {
+            v: this.iaqi
+          },
+          pm25: {
+            v: this.iaqi
+          }
         }
       },
       preloader: false
@@ -92,7 +105,7 @@ export default {
           // JSON responses are automatically parsed.
           // var aqi = response.data.data.aqi;
           var dominentpol = response.data.data;
-          var iaqi = response.data.data.iaqi;
+          var iaqi = response.data.data.iaqi.v;
           console.log(iaqi);
           // this.data = aqi;
           this.data = dominentpol;
