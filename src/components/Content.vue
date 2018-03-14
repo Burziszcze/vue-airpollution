@@ -2,7 +2,7 @@
       <div class="container">
         <div class="row">
           <div class="col s12">
-            <div class="preloader center">
+            <div v-show="preloader" class="preloader center">
               <div class="preloader-wrapper big active">
                 <div class="spinner-layer spinner-blue">
                   <div class="circle-clipper left">
@@ -23,7 +23,19 @@
               <a href="#!" class="collection-item"><span class="badge light-green">{{position.longitude}}</span><strong>longitude is:</strong></a>
             </div>
             <button @click="showPosition" class="waves-effect waves-light btn red center" id="getlocation">użyj lokalizacji</button>
-            <p>{{posts}}</p>
+            <h4 class="center">Response data</h4>
+            <p>time: {{data.time}}</p>
+            <p>{{data.name}}</p>
+            <div class="collection">
+              <a href="#!" class="collection-item"><span class="badge green">{{data.aqi}}</span><strong>Air quality index</strong></a>
+              <a href="#!" class="collection-item"><span class="badge blue">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
+              <a href="#!" class="collection-item"><span class="badge red">{{data.co}}</span><strong>Carbon monoxide</strong></a>
+              <a href="#!" class="collection-item"><span class="badge red">{{data.so2}}</span><strong>Sulfur dioxide</strong></a>
+              <a href="#!" class="collection-item"><span class="badge red">{{data.no2}}</span><strong>Nitrogen dioxide</strong></a>              
+              <a href="#!" class="collection-item"><span class="badge red">{{data.o3}}</span><strong>Ozone</strong></a>
+              <a href="#!" class="collection-item"><span class="badge red">{{data.pm10}}</span><strong>PM10</strong></a>
+              <a href="#!" class="collection-item"><span class="badge red">{{data.pm25}}</span><strong>PM25</strong></a>
+            </div>
           </div>
         </div>
       </div>
@@ -37,9 +49,20 @@ export default {
         latitude: this.position,
         longitude: this.position
       },
-      userAqi: null,
       station: null,
-      posts: null,
+      data: {
+        name: this.name,
+        time: this.data,
+        aqi: this.data,
+        dominentpol: this.data,
+        iaqi: {
+          co: this.iaqi,
+          no2: this.iaqi,
+          o3: this.iaqi,
+          pm10: this.iaqi,
+          pm25: this.iaqi
+        }
+      },
       preloader: false
     };
   },
@@ -47,37 +70,33 @@ export default {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         this.position = position.coords;
+        // console.log((this.position = position.coords));
       });
     }
   },
-  // getData: function() {
-  //   // var lat = position.latitude;
-  //   // var lng = position.longitude;
-  //   var token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
-  //   var url =
-  //     "https://api.waqi.info/feed/geo:" + lat + ";" + lng + "/?token=" + token;
-  //   console.log(url);
-  //   axios
-  //     .get("http://api.gios.gov.pl/pjp-api/rest/aqindex/getIndex/285")
-  //     .then(response => {
-  //       // JSON responses are automatically parsed.
-  //       this.station = response.data;
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // },
   methods: {
     showPosition() {
+      var token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
+      var lat = this.position.latitude;
+      var lng = this.position.longitude;
+      var url =
+        "https://api.waqi.info/feed/geo:" +
+        lat +
+        ";" +
+        lng +
+        "/?token=" +
+        token;
       axios
-        // .get("http://api.gios.gov.pl/pjp-api/rest/aqindex/getIndex/285")
-        .get("http://jsonplaceholder.typicode.com/posts/10")
-
+        .get(url)
         .then(response => {
           // JSON responses are automatically parsed.
-          this.preloader = true;
-          this.posts = response.data.title;
-          // console.log((this.station = response.data.body));
+          // var aqi = response.data.data.aqi;
+          var dominentpol = response.data.data;
+          var iaqi = response.data.data.iaqi;
+          console.log(iaqi);
+          // this.data = aqi;
+          this.data = dominentpol;
+          this.iaqi = iaqi;
         })
         .catch(error => {
           console.log(error);
