@@ -1,14 +1,8 @@
 <template>
       <div class="container">
-      <div class="section main">
         <div class="row">
           <div class="col s12 center">
-            <div id="weather">
-              <p id="out"></p>
-            </div>
-          </div>
-          <div class="col s12">
-            <div class="preloader center">
+            <!-- <div class="preloader center">
               <div class="preloader-wrapper big active">
                 <div class="spinner-layer spinner-blue">
                   <div class="circle-clipper left">
@@ -22,77 +16,43 @@
                   </div>
                 </div>
               </div>
+            </div> -->
+            <div class="collection">
+              <a href="#!" class="collection-item"><span class="badge light-green">{{position.latitude}}</span><strong>latitude is:</strong></a>
+              <a href="#!" class="collection-item"><span class="badge light-green">{{position.longitude}}</span><strong>longitude is:</strong></a>
             </div>
-          </div>
-          <div class="col s12 center">
-            <button @click="showLocation" class="waves-effect waves-light btn red center" id="getlocation">użyj lokalizacji</button>
+            <button @click="showPosition" class="waves-effect waves-light btn red center" id="getlocation">użyj lokalizacji</button>
           </div>
         </div>
       </div>
-      <div class="container">
-        <div class="row">
-            <div class="col s12 center">
-                 <div class="card">
-                     <h2>{{currentLocation.currentLocationLat}}</h2>
-                 </div>
-            </div>
-        </div>
-      </div>
-</div>
 </template>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      currentLocation: {
-        currentLocationLat: this.currentLocationLat,
-        currentLocationLon: this.currentLocationLon
+      position: {
+        latitude: this.position,
+        longitude: this.position
       }
     };
   },
-  methods: {
-    showLocation: function() {
-      if ("geolocation" in navigator) {
-        var gl = navigator.geolocation;
-        gl.getCurrentPosition(
-          function(position) {
-            this.currentLocation = position.coords;
-            this.currentLocationLon = position.coords.longitude;
-            this.currentLocationLat = position.coords.latitude;
-            console.log(this.currentLocation);
-          }.bind(this)
-        ) // bind to `this` so it's the current component.
-      }
-    },
+  mounted: function() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.position = position.coords;
+      });
+    }
   },
-  //   data() {
-  //     return {
-  //       currentLocation: {
-  //         currentLocationLat: null,
-  //         currentLocationLon: null,
-  //         currentLocation: null
-  //       }
-  //     };
-  //   },
-  //   ready() {
-  //     if ("geolocation" in navigator) {
-  //       var gl = navigator.geolocation;
-  //       gl.getCurrentPosition(
-  //         function(position) {
-  //           this.currentLocation = position.coords;
-  //           this.currentLocationLon = position.coords.longitude;
-  //           this.currentLocationLat = position.coords.latitude;
-  //           console.log(this.currentLocation);
-  //         }.bind(this)
-  //       ); // bind to `this` so it's the current component.
-  //     }
-  //   }
+  methods: {
+    showposition() {}
+  }
 };
 </script>
+
 <style scoped>
-.card {
-  width: 700px;
-  height: 200px;
+.badge {
+  color: black;
 }
 </style>
 
