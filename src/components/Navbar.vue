@@ -1,6 +1,6 @@
 <template>
  <nav class="navbar grey darken-4" role="navigation">
-  <a href="#" class="brand-logo center">Vue air pollution app</a>
+  <a href="#" class="brand-logo center">{{title}}</a>
 </nav>
 </template>
 
@@ -9,7 +9,8 @@ export default {
   name: "Navbar",
   data() {
     return {
-      msg: "This is navbar component"
+      msg: "This is navbar component",
+      title: 'Vue air pollution app'
     };
   }
 };
