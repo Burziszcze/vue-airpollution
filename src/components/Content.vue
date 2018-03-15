@@ -24,9 +24,9 @@
             </div>
             <button @click="showPosition" class="waves-effect waves-light btn red center" id="getlocation">użyj lokalizacji</button>
             <h4 class="center">Response data</h4>
-            <p>time: {{data.time}}</p>
+            <p>time from last sensor update: {{data.time.s}}</p>
             <p>{{data.name}}</p>
-            <div class="collection">
+            <div class="collection api_data">
               <a href="#!" class="collection-item"><span class="badge green">{{data.aqi}}</span><strong>Air quality index</strong></a>
               <a href="#!" class="collection-item"><span class="badge blue">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
               <a href="#!" class="collection-item"><span class="badge red">{{data.iaqi.co.v}}</span><strong>Carbon monoxide</strong></a>
@@ -52,7 +52,17 @@ export default {
       station: null,
       data: {
         name: this.name,
-        time: this.data,
+        badgecolor: {
+          green: 'green',
+          yellow: 'yellow',
+          orange: 'orange',
+          red: 'red',
+          purple: 'purple',
+          maroon: 'maroon',
+        },
+        time: {
+          s: this.data
+        },
         aqi: this.data,
         dominentpol: this.data,
         iaqi: {
@@ -79,6 +89,9 @@ export default {
       preloader: false
     };
   },
+  computed: function() {
+
+  },
   mounted: function() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
@@ -104,11 +117,9 @@ export default {
         .then(response => {
           // JSON responses are automatically parsed.
           // var aqi = response.data.data.aqi;
-          var dominentpol = response.data.data;
+          var data = response.data.data;
           var iaqi = response.data.data.iaqi.v;
-          console.log(iaqi);
-          // this.data = aqi;
-          this.data = dominentpol;
+          this.data = data;
           this.iaqi = iaqi;
         })
         .catch(error => {
@@ -123,5 +134,8 @@ export default {
 .badge {
   color: black;
 }
+/* .api_data {
+  display: none;
+} */
 </style>
 
