@@ -15,6 +15,7 @@ module.exports = {
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    token: '9648d934b001fa967ab0bebf65abb7f010ffb93d',
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
@@ -74,3 +75,7 @@ module.exports = {
     bundleAnalyzerReport: process.env.npm_config_report
   }
 }
+function token() {
+  return '9648d934b001fa967ab0bebf65abb7f010ffb93d';
+}
+
