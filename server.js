@@ -7,8 +7,6 @@ const path = require('path');
 const serveStatic = require('serve-static');
 const dotenv = require('dotenv');
 const logger = require('morgan');
-const chalk = require('chalk');
-
 
 // Load environment variables from .env file
 dotenv.load();
@@ -26,6 +24,6 @@ app.listen(port);
 console.log('server started at port ' + port);
 
 app.listen(app.get('port'), () => {
-    console.log('%s App is running at http://localhost:%d in %s mode', chalk.green('✓'), app.get('port'), app.get('env'));
+    console.log('%s App is running at http://localhost:%d in %s mode', app.get('port'), app.get('env'));
     console.log('  Press CTRL-C to stop\n');
   });
