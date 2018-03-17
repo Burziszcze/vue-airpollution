@@ -1,6 +1,5 @@
 <template>
-  <nav class="navbar grey darken-4 center" role="navigation">
-    <a href="#" class="brand-logo">{{title}}</a>
+  <nav class="navbar grey darken-4 center" role="navigation">{{title}}
   </nav>
 </template>
 

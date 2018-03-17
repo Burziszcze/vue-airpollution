@@ -145,23 +145,30 @@ export default {
         token;
       axios
         .get(
-          // "https://api.waqi.info/feed/geo:51.5647774;-0.35290879999999997/?token=9648d934b001fa967ab0bebf65abb7f010ffb93d"
-          url
+          "https://api.waqi.info/feed/geo:51.5647774;-0.35290879999999997/?token=9648d934b001fa967ab0bebf65abb7f010ffb93d"
+          // url
         )
+        // .then(e => {
+        //   var preloader = document.getElementsByClassName('preloader');
+        //   console.log(preloader);
+
+        //   e.preloader.style.display = 'inline';
+        // })
         .then(response => {
           // var preloadershow = document.getElementById('spinner').style.display = 'block';
 
           // JSON responses are automatically parsed.
-          var stationCoords = response.data.data.city.geo;
-          var data = response.data.data;
-          var aqi = response.data.data.aqi;
-          var iaqi = response.data.data.iaqi.v;
-          var name = response.data.data.city.name;
-          var co = response.data.data.iaqi.co.v;
-          var so2 = response.data.data.iaqi.so2.v;
-          var no2 = response.data.data.iaqi.no2.v;
-          var o3 = response.data.data.iaqi.o3.v;
-          var pm10 = response.data.data.iaqi.pm10.v;
+          let stationCoords = response.data.data.city.geo;
+          let data = response.data.data;
+          let aqi = response.data.data.aqi;
+          let iaqi = response.data.data.iaqi.v;
+          let name = response.data.data.city.name;
+          let co = response.data.data.iaqi.co.v;
+          let so2 = response.data.data.iaqi.so2.v;
+          let no2 = response.data.data.iaqi.no2.v;
+          let o3 = response.data.data.iaqi.o3.v;
+          let pm10 = response.data.data.iaqi.pm10.v;
+          let city = response.data.data.city.geo;
 
           // bind for data
           this.stationCoords = stationCoords;
@@ -174,6 +181,7 @@ export default {
           this.no2 = no2;
           this.o3 = o3;
           this.pm10 = pm10;
+          this.city = city;
 
           // change aqi badge color
           if (aqi >= 0 && aqi <= 50) {

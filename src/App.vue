@@ -34,8 +34,10 @@ export default {
   background-image: url("assets/images/img_1.png");
   background-size: cover;
 }
-nav .brand-logo {
+nav {
   color: #fff;
+  font-size: 2.1rem;
+
 }
 
 main {
@@ -47,10 +49,10 @@ main {
   /*opacity: 0.5;*/
 }
 
-.map {
+/* .map {
   width: 600px;
   height: 400px;
-}
+} */
 
 /*show preloader before content load*/
 
