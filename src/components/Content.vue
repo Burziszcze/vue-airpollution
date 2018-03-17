@@ -145,8 +145,8 @@ export default {
         token;
       axios
         .get(
-          "https://api.waqi.info/feed/geo:51.5647774;-0.35290879999999997/?token=9648d934b001fa967ab0bebf65abb7f010ffb93d"
-          // url
+          // "https://api.waqi.info/feed/geo:51.5647774;-0.35290879999999997/?token=9648d934b001fa967ab0bebf65abb7f010ffb93d"
+          url
         )
         // .then(e => {
         //   var preloader = document.getElementsByClassName('preloader');
