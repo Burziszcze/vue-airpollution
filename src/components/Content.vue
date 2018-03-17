@@ -10,14 +10,15 @@
           </div>
           <div class="col s12 center">
             <button @click="showPosition" class="waves-effect waves-light btn red center" id="getlocation">show data</button>
-            <p>press the button to present data</p>           
+            <p>press the button to present data</p>
+            <sync-loader :loading="loading" :color="color" :size="size"></sync-loader>
           </div>          
           <div class="col s12 m6">
             <h4 class="center">Response data</h4>
             <div class="collection">
-              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.green">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
-              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.green">{{data.attributions.name}}</span><strong>data come from sensor name</strong></a>
-              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
+              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
+              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>data come from sensor name</strong></a>
+              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
               <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.aqi}}</span><strong>Air quality index (AQI)</strong></a>
               <a href="#!" class="collection-item"><span v-bind:class="badgecolor.co">{{data.iaqi.co.v}}</span><strong>Carbon monoxide (CO)</strong></a>
               <a href="#!" class="collection-item"><span v-bind:class="badgecolor.so2">{{data.iaqi.so2.v}}</span><strong>Sulfur dioxide (SO2)</strong></a>
@@ -45,7 +46,7 @@ import Vue from "vue";
 Vue.use(VueGoogleMaps, {
   load: {
     key: "AIzaSyCz-0Jfh7Vm3rJVTNgisSb--93TKhxWWsM",
-    v: "3.26"
+    v: ""
     // libraries: 'places', //// If you need to use place input
   }
 });
@@ -75,7 +76,9 @@ export default {
         latitude: this.position,
         longitude: this.position
       },
-      station: null,
+      stationCoords: {
+        geo: this.data
+      },
       badgecolor: {
         none: "badge grey lighten-1",
         aqi: "badge grey lighten-1",
@@ -83,21 +86,14 @@ export default {
         so2: "badge grey lighten-1",
         no2: "badge grey lighten-1",
         o3: "badge grey lighten-1",
-        pm10: "badge grey lighten-1",
-
-        green: "badge green",
-        yellow: "badge yellow",
-        orange: "badge orange",
-        red: "badge red",
-        purple: "badge purple",
-        maroon: "badge maroon"
+        pm10: "badge grey lighten-1"
       },
       data: {
         time: {
           s: this.data
         },
-        attributions: {
-          name: this.data
+        city: {
+          name: this.name
         },
         aqi: this.data,
         dominentpol: this.data,
@@ -122,7 +118,7 @@ export default {
           }
         }
       },
-      preloader: false
+      loading: false
     };
   },
   mounted() {
@@ -149,22 +145,18 @@ export default {
         token;
       axios
         .get(
-          "https://api.waqi.info/feed/geo:51.5647774;-0.35290879999999997/?token=9648d934b001fa967ab0bebf65abb7f010ffb93d"
+          // "https://api.waqi.info/feed/geo:51.5647774;-0.35290879999999997/?token=9648d934b001fa967ab0bebf65abb7f010ffb93d"
+          url
         )
-        // .then(e => {
-        //   var preloader = document.getElementsByClassName('preloader');
-        //   console.log(preloader);
-
-        //   e.preloader.style.display = 'inline';
-        // })
         .then(response => {
           // var preloadershow = document.getElementById('spinner').style.display = 'block';
 
           // JSON responses are automatically parsed.
+          var stationCoords = response.data.data.city.geo;
           var data = response.data.data;
           var aqi = response.data.data.aqi;
           var iaqi = response.data.data.iaqi.v;
-          var name = response.data.data.attributions[1];
+          var name = response.data.data.city.name;
           var co = response.data.data.iaqi.co.v;
           var so2 = response.data.data.iaqi.so2.v;
           var no2 = response.data.data.iaqi.no2.v;
@@ -172,6 +164,7 @@ export default {
           var pm10 = response.data.data.iaqi.pm10.v;
 
           // bind for data
+          this.stationCoords = stationCoords;
           this.name = name;
           this.data = data;
           this.iaqi = iaqi;

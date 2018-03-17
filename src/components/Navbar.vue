@@ -1,6 +1,6 @@
 <template>
-  <nav class="navbar grey darken-4" role="navigation">
-    <a href="#" class="brand-logo center">{{title}}</a>
+  <nav class="navbar grey darken-4 center" role="navigation">
+    <a href="#" class="brand-logo">{{title}}</a>
   </nav>
 </template>
 
@@ -16,6 +16,5 @@ export default {
 };
 </script>
 <style scoped>
-
 </style>
 

@@ -36,7 +36,6 @@ export default {
 }
 nav .brand-logo {
   color: #fff;
-  font-size: 1.5em;
 }
 
 main {
