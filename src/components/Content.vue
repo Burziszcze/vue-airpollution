@@ -1,17 +1,20 @@
 <template>
       <div class="container">
         <div class="row">
-          <div class="col m12">
+          <div class="col s12 m12">
             <h4 class="center">your geoposition coordinates</h4>
             <div class="collection">
-              <a href="#!" class="collection-item"><span class="badge light-green">{{position.latitude}}</span><strong>latitude is:</strong></a>
-              <a href="#!" class="collection-item"><span class="badge light-green">{{position.longitude}}</span><strong>longitude is:</strong></a>
+              <a href="#!" class="collection-item"><span class="badge light-green">{{currentLocation.lat}}</span><strong>latitude is:</strong></a>
+              <a href="#!" class="collection-item"><span class="badge light-green">{{currentLocation.lng}}</span><strong>longitude is:</strong></a>
             </div>
           </div>
           <div class="col s12 center">
-            <button @click="showPosition" class="waves-effect waves-light btn red center" id="getlocation">show data</button>
+            <button @click="displayData" class="waves-effect waves-light btn red center" id="getlocation">show data</button>
             <p>press the button to present data</p>
-            <sync-loader :loading="loading" :color="color" :size="size"></sync-loader>
+            <!-- <sync-loader :loading="loading" :color="color" :size="size"></sync-loader> -->
+            <div class="search">
+              <input type="text" v-model="searchAddressInput" placeholder="find city..." v-on:change="searchLocation()">
+            </div>
           </div>          
           <div class="col s12 m6">
             <h4 class="center">Response data</h4>
@@ -30,8 +33,8 @@
           </div>
           <div class="col s12 m6">
             <h4 class="center">Map</h4>
-              <gmap-map :center="center" :zoom="7" style="width: 100%; height: 430px">
-                <gmap-marker :key="index" v-for="(m, index) in markers" :position="m.position" :clickable="true" :draggable="true" @click="center=m.position"
+              <gmap-map :center="{lat:currentLocation.lat, lng:currentLocation.lng}" :zoom="10" style="width: 100%; height: 430px">
+                <gmap-marker :key="index" v-for="(m1, m2, index) in markers" :position="{lat:currentLocation.lat, lng:currentLocation.lng}" :clickable="true" :draggable="true" @click="center=m.position"
                 ></gmap-marker>
               </gmap-map>
           </div>
@@ -46,7 +49,7 @@ import Vue from "vue";
 Vue.use(VueGoogleMaps, {
   load: {
     key: "AIzaSyCz-0Jfh7Vm3rJVTNgisSb--93TKhxWWsM",
-    v: ""
+    v: "3"
     // libraries: 'places', //// If you need to use place input
   }
 });
@@ -54,30 +57,28 @@ Vue.use(VueGoogleMaps, {
 export default {
   data() {
     return {
-      center: {
-        lat: 51.56,
-        lng: -0.35
+      currentLocation: {
+        lat: 0,
+        lng: 0
       },
+      searchAddressInput: "",
       markers: [
         {
           position: {
-            lat: 51.5647698,
-            lng: -0.3528734
+            lat: 0,
+            lng: 0
           }
         },
         {
           position: {
-            lat: 51.552476,
-            lng: -0.258089
+            lat: 0,
+            lng: 0
           }
         }
       ],
-      position: {
-        latitude: this.position,
-        longitude: this.position
-      },
       stationCoords: {
-        geo: this.data
+        lat: 0,
+        lng: 0
       },
       badgecolor: {
         none: "badge grey lighten-1",
@@ -122,20 +123,45 @@ export default {
     };
   },
   mounted() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.position = position.coords;
-        // var lat = position.coords.latitude;
-        // var lng = position.coords.longitude
-        // console.log("latitude is: ${lat} and longitude is ${lng}");
-      });
-    }
+    this.geolocation();
+    // this.showPosition();
   },
   methods: {
-    showPosition() {
+    geolocation() {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          this.currentLocation = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+        },
+        error => {
+          alert(error.message);
+        },
+        {
+          enableHighAccuracy: true,
+          maximumAge: 100,
+          timeout: 60000
+        }
+      );
+    },
+    searchLocation() {
+      let geocoder = new google.maps.Geocoder();
+      geocoder.geocode(
+        { address: this.searchAddressInput },
+        (results, status) => {
+          if (status === "OK") {
+            this.currentLocation.lat = results[0].geometry.location.lat();
+            this.currentLocation.lng = results[0].geometry.location.lng();
+          }
+        }
+      );
+    },
+    markerCoordinates() {},
+    displayData() {
       const token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
-      let lat = this.position.latitude;
-      let lng = this.position.longitude;
+      let lat = this.currentLocation.lat;
+      let lng = this.currentLocation.lng;
       let url =
         "https://api.waqi.info/feed/geo:" +
         lat +
