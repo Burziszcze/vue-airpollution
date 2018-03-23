@@ -1,45 +1,39 @@
 <template>
-      <div class="container">
-        <div class="row">
-          <div class="col s12 m12">
-            <h4 class="center">your geoposition coordinates</h4>
-            <div class="collection">
-              <a href="#!" class="collection-item"><span class="badge light-green">{{currentLocation.lat}}</span><strong>latitude is:</strong></a>
-              <a href="#!" class="collection-item"><span class="badge light-green">{{currentLocation.lng}}</span><strong>longitude is:</strong></a>
-            </div>
-          </div>
-          <div class="col s12 center">
-            <button @click="displayData" class="waves-effect waves-light btn red center" id="getlocation">show data</button>
-            <p>press the button to present data</p>
-            <!-- <sync-loader :loading="loading" :color="color" :size="size"></sync-loader> -->
-            <div class="search">
-              <input type="text" v-model="searchAddressInput" placeholder="find city..." v-on:change="searchLocation()">
-            </div>
-          </div>          
-          <div class="col s12 m6">
-            <h4 class="center">Response data</h4>
-            <div class="collection">
-              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
-              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>data come from sensor name</strong></a>
-              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
-              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.aqi}}</span><strong>Air quality index (AQI)</strong></a>
-              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.co">{{data.iaqi.co.v}}</span><strong>Carbon monoxide (CO)</strong></a>
-              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.so2">{{data.iaqi.so2.v}}</span><strong>Sulfur dioxide (SO2)</strong></a>
-              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.no2">{{data.iaqi.no2.v}}</span><strong>Nitrogen dioxide (NO2)</strong></a>              
-              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.o3">{{data.iaqi.o3.v}}</span><strong>Ozone (O3)</strong></a>
-              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.pm10">{{data.iaqi.pm10.v}}</span><strong>PM10</strong></a>
-              <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.iaqi.pm25.v}}</span><strong>PM25</strong></a>
-            </div>
-          </div>
-          <div class="col s12 m6">
-            <h4 class="center">Map</h4>
-              <gmap-map :center="{lat:currentLocation.lat, lng:currentLocation.lng}" :zoom="10" style="width: 100%; height: 430px">
-                <gmap-marker :key="index" v-for="(m1, m2, index) in markers" :position="{lat:currentLocation.lat, lng:currentLocation.lng}" :clickable="true" :draggable="true" @click="center=m.position"
-                ></gmap-marker>
-              </gmap-map>
-          </div>
-        </div>
+<div class="container">
+  <div class="row">
+    <br>
+    <div class="col s12 center">
+      <i id="cloud-icon" class="fa fa-cloud"></i>
+      <h1 class="title-font">Vue Air pollution</h1>
+      <p class="title-font">check the air pollution in your area</p>
+      <button @click="displayData" class="waves-effect waves-light btn red pulse center" id="getlocation">show data</button>
+      <p>press the button to present data</p>
+    </div>
+    <div class="col s12 m6">
+      <div class="collection">
+        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{currentLocation.lat}}</span><strong>User latitude </strong></a>
+        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{currentLocation.lng}}</span><strong>User longitude</strong></a>
+        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
+        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>data come from sensor name</strong></a>
+        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
+        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.aqi}}</span><strong>Air quality index (AQI)</strong></a>
+        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.co">{{data.iaqi.co.v}}</span><strong>Carbon monoxide (CO)</strong></a>
+        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.so2">{{data.iaqi.so2.v}}</span><strong>Sulfur dioxide (SO2)</strong></a>
+        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.no2">{{data.iaqi.no2.v}}</span><strong>Nitrogen dioxide (NO2)</strong></a>
+        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.o3">{{data.iaqi.o3.v}}</span><strong>Ozone (O3)</strong></a>
+        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.pm10">{{data.iaqi.pm10.v}}</span><strong>PM10</strong></a>
+        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.iaqi.pm25.v}}</span><strong>PM25</strong></a>
       </div>
+    </div>
+    <div class="col s12 m6">
+      <div class="card">
+        <gmap-map :center="{lat:currentLocation.lat, lng:currentLocation.lng}" :zoom="10" style="width: 100%; height: 515px">
+          <gmap-marker :key="index" v-for="(m1, m2, index) in markers" :position="{lat:currentLocation.lat, lng:currentLocation.lng}" :clickable="true" :draggable="true" @click="center=m.position"></gmap-marker>
+        </gmap-map>
+      </div>
+    </div>
+  </div>
+</div>
 </template>
 <script>
 import axios from "axios";
@@ -57,13 +51,12 @@ Vue.use(VueGoogleMaps, {
 export default {
   data() {
     return {
+      fetchedData: [],
       currentLocation: {
         lat: 0,
         lng: 0
       },
-      searchAddressInput: "",
-      markers: [
-        {
+      markers: [{
           position: {
             lat: 0,
             lng: 0
@@ -124,7 +117,7 @@ export default {
   },
   mounted() {
     this.geolocation();
-    // this.showPosition();
+    this.FetchApiData();
   },
   methods: {
     geolocation() {
@@ -137,25 +130,32 @@ export default {
         },
         error => {
           alert(error.message);
-        },
-        {
+        }, {
           enableHighAccuracy: true,
           maximumAge: 100,
           timeout: 60000
         }
       );
     },
-    searchLocation() {
-      let geocoder = new google.maps.Geocoder();
-      geocoder.geocode(
-        { address: this.searchAddressInput },
-        (results, status) => {
-          if (status === "OK") {
-            this.currentLocation.lat = results[0].geometry.location.lat();
-            this.currentLocation.lng = results[0].geometry.location.lng();
-          }
-        }
-      );
+    FetchApiData() {
+      const token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
+      let lat = this.currentLocation.lat;
+      let lng = this.currentLocation.lng;
+      let url =
+        "https://api.waqi.info/feed/geo:" +
+        lat +
+        ";" +
+        lng +
+        "/?token=" +
+        token;
+      axios
+        .get(url)
+        .then(response => {
+          this.fetchedData = response.data;
+        })
+        .catch(error => {
+          alert(error.message);
+        });
     },
     markerCoordinates() {},
     displayData() {
@@ -174,12 +174,6 @@ export default {
           // "https://api.waqi.info/feed/geo:51.5647774;-0.35290879999999997/?token=9648d934b001fa967ab0bebf65abb7f010ffb93d"
           url
         )
-        // .then(e => {
-        //   var preloader = document.getElementsByClassName('preloader');
-        //   console.log(preloader);
-
-        //   e.preloader.style.display = 'inline';
-        // })
         .then(response => {
           // var preloadershow = document.getElementById('spinner').style.display = 'block';
 
@@ -286,7 +280,7 @@ export default {
           // var preloaderhide = document.getElementById('spinner').style.display = 'none';
         })
         .catch(error => {
-          console.log(error);
+          alert(error.message);
         });
     }
   }
@@ -294,14 +288,36 @@ export default {
 </script>
 
 <style scoped>
+.title-font {
+  font-family: 'Fugaz One';
+  color: #343434;
+}
+
+#app>main>div>div>div.col.s12.center>p.title-font {
+  font-size: 1.5em;
+}
+
+#cloud-icon {
+  font-size: 10rem;
+  background-color: #343434;
+  color: #7986cb;
+  padding: 10px;
+  border-radius: 10px;
+}
+
 .badge {
   color: black;
 }
+
+.btn {
+  border-radius: 30px;
+}
+
 .maroon {
   background-color: #a52a2a;
 }
+
 /* .api_data {
   display: none;
 } */
 </style>
-
