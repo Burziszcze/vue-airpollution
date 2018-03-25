@@ -43,30 +43,21 @@ main {
   flex: 1 0 auto;
 }
 
-#weather {
-  background-color: #fafafa;
-  /*opacity: 0.5;*/
-}
-
-/* .map {
-  width: 600px;
-  height: 400px;
-} */
-
 .swal-icon--info {
   border-color: #ffeb3b;
 }
 
 .swal-icon--info:after {
   background-color: #ffeb3b;
+  border-color: #ffeb3b;
 }
 
 .swal-icon--info:before {
   background-color: #ffeb3b;
+  border-color: #ffeb3b;
 }
-
-.swal-button-container {
-  text-decoration: none;
+.swal-button {
+  color: rgba(0,0,0,.64);
 }
 
 /*show preloader before content load*/
