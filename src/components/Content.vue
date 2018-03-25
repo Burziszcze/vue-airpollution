@@ -4,8 +4,8 @@
     <br>
     <div class="col s12 center">
       <i id="cloud-icon" class="fa fa-cloud"></i>
-      <h1 class="title-font">Vue Air pollution</h1>
-      <p class="title-font">check the air pollution in your area</p>
+      <h1 id="title-heading-font">Vue Air pollution</h1>
+      <p id="title-description-font">check the air pollution in your area</p>
       <button @click="displayData" class="waves-effect waves-light btn red pulse center" id="getlocation">show data</button>
       <p>press the button to present data</p>
     </div>
@@ -42,6 +42,7 @@ import {
   SlideYUpTransition
 } from 'vue2-transitions';
 import axios from "axios";
+import swal from 'sweetalert';
 import * as VueGoogleMaps from "vue2-google-maps";
 import Vue from "vue";
 
@@ -138,7 +139,7 @@ export default {
           };
         },
         error => {
-          alert(error.message);
+          swal(error.message);
         }, {
           enableHighAccuracy: true,
           maximumAge: 100,
@@ -163,7 +164,7 @@ export default {
           this.fetchedData = response.data;
         })
         .catch(error => {
-          alert(error.message);
+          swal(error.message);
         });
     },
     markerCoordinates() {},
@@ -180,12 +181,10 @@ export default {
         token;
       axios
         .get(
-          // "https://api.waqi.info/feed/geo:51.5647774;-0.35290879999999997/?token=9648d934b001fa967ab0bebf65abb7f010ffb93d"
-          url
+          "https://api.waqi.info/feed/geo:51.5647774;-0.35290879999999997/?token=9648d934b001fa967ab0bebf65abb7f010ffb93d"
+          // url
         )
         .then(response => {
-          // var preloadershow = document.getElementById('spinner').style.display = 'block';
-
           // JSON responses are automatically parsed.
           let stationCoords = response.data.data.city.geo;
           let data = response.data.data;
@@ -215,16 +214,70 @@ export default {
           // change aqi badge color
           if (aqi >= 0 && aqi <= 50) {
             this.badgecolor.aqi = "badge light-green";
+            swal({
+              icon: "success",
+              button: {
+                className: "waves-effect waves-light btn light-green"
+              },
+              closeOnEsc: true,
+              title: "Excellent",
+              text: "No health implications."
+            });
           } else if (aqi >= 51 && aqi <= 100) {
             this.badgecolor.aqi = "badge yellow";
+            swal({
+              icon: "info",
+              button: {
+                className: "waves-effect waves-light btn yellow"
+              },
+              closeOnEsc: true,
+              title: "Good",
+              text: "Only very few hypersensitive people should reduce outdoor activities."
+            });
           } else if (aqi >= 101 && aqi <= 150) {
             this.badgecolor.aqi = "badge orange";
+            swal({
+              icon: "warning",
+              button: {
+                className: "waves-effect waves-light btn orange"
+              },
+              closeOnEsc: true,
+              title: "Lightly Polluted",
+              text: "Healthy people may experience slight irritations and sensitive individuals will be slightly affected to a larger extent."
+            });
           } else if (aqi >= 151 && aqi <= 200) {
             this.badgecolor.aqi = "badge red";
+            swal({
+              icon: "error",
+              button: {
+                className: "waves-effect waves-light btn red"
+              },
+              closeOnEsc: true,
+              title: "Moderately Polluted	",
+              text: "Sensitive individuals will experience more serious conditions. The hearts and respiratory systems of healthy people may be affected."
+            });
           } else if (aqi >= 201 && aqi <= 300) {
             this.badgecolor.aqi = "badge purple";
+            swal({
+              icon: "error",
+              button: {
+                className: "waves-effect waves-light btn purple"
+              },
+              closeOnEsc: true,
+              title: "Heavily Polluted",
+              text: "Healthy people will commonly show symptoms. People with respiratory or heart diseases will be significantly affected and will experience reduced endurance in activities."
+            });
           } else {
-            this.badgecolor.aqi = "badge maroon";
+            this.badgecolor.aqi = "badge red accent-4";
+            swal({
+              icon: "error",
+              button: {
+                className: "waves-effect waves-light btn red accent-4"
+              },
+              closeOnEsc: true,
+              title: "Severely Polluted",
+              text: "Healthy people will experience reduced endurance in activities and may also show noticeably strong symptoms. Other illnesses may be triggered in healthy people. Elders and the sick should remain indoors and avoid exercise. Healthy individuals should avoid outdoor activities."
+            });
           }
           // change CO badge color
           if (co >= 0 && co <= 2.9) {
@@ -289,7 +342,7 @@ export default {
           // var preloaderhide = document.getElementById('spinner').style.display = 'none';
         })
         .catch(error => {
-          alert(error.message);
+          swal(error.message);
         });
     }
   }
@@ -297,14 +350,16 @@ export default {
 </script>
 
 <style scoped>
-.title-font {
+#title-heading-font {
   font-family: 'Fugaz One';
   color: #343434;
 }
 
-#app>main>div>div>div.col.s12.center>p.title-font {
+#title-description-font {
   font-size: 1.5em;
+  font-family: 'Fugaz One';
 }
+
 
 #cloud-icon {
   font-size: 10rem;
@@ -321,12 +376,4 @@ export default {
 .btn {
   border-radius: 30px;
 }
-
-.maroon {
-  background-color: #a52a2a;
-}
-
-/* .api_data {
-  display: none;
-} */
 </style>

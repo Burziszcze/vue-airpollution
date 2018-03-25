@@ -1,11 +1,11 @@
 <template>
-  <div id="app">
-    <main>
-      <Navbar/>
-      <Content/>
-    </main>
-    <Footer/>
-  </div>
+<div id="app">
+  <main>
+    <Navbar/>
+    <Content/>
+  </main>
+  <Footer/>
+</div>
 </template>
 
 <script>
@@ -32,6 +32,7 @@ export default {
   background-image: url("assets/images/img_1.png");
   background-size: cover;
 }
+
 nav {
   color: #fff;
   font-size: 2.1rem;
@@ -51,6 +52,22 @@ main {
   width: 600px;
   height: 400px;
 } */
+
+.swal-icon--info {
+  border-color: #ffeb3b;
+}
+
+.swal-icon--info:after {
+  background-color: #ffeb3b;
+}
+
+.swal-icon--info:before {
+  background-color: #ffeb3b;
+}
+
+.swal-button-container {
+  text-decoration: none;
+}
 
 /*show preloader before content load*/
 
