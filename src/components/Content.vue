@@ -12,8 +12,8 @@
     <!-- <slide-y-up-transition :duration="600"> -->
     <div class="col s12 m6">
       <div class="collection">
-        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{currentLocation.lat}}</span><strong>User latitude </strong></a>
-        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{currentLocation.lng}}</span><strong>User longitude</strong></a>
+        <!-- <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{currentLocation.lat}}</span><strong>User latitude </strong></a>
+        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{currentLocation.lng}}</span><strong>User longitude</strong></a> -->
         <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
         <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>data come from sensor name</strong></a>
         <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
