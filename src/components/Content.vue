@@ -9,6 +9,7 @@
       <button @click="displayData" class="waves-effect waves-light btn red pulse center" id="getlocation">show data</button>
       <p>press the button to present data</p>
     </div>
+    <!-- <slide-y-up-transition :duration="600"> -->
     <div class="col s12 m6">
       <div class="collection">
         <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{currentLocation.lat}}</span><strong>User latitude </strong></a>
@@ -25,6 +26,7 @@
         <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.iaqi.pm25.v}}</span><strong>PM25</strong></a>
       </div>
     </div>
+    <!-- </slide-y-up-transition> -->
     <div class="col s12 m6">
       <div class="card">
         <gmap-map :center="{lat:currentLocation.lat, lng:currentLocation.lng}" :zoom="10" style="width: 100%; height: 515px">
@@ -36,6 +38,9 @@
 </div>
 </template>
 <script>
+import {
+  SlideYUpTransition
+} from 'vue2-transitions';
 import axios from "axios";
 import * as VueGoogleMaps from "vue2-google-maps";
 import Vue from "vue";
@@ -49,8 +54,12 @@ Vue.use(VueGoogleMaps, {
 });
 
 export default {
+  components: {
+    SlideYUpTransition
+  },
   data() {
     return {
+      show: false,
       fetchedData: [],
       currentLocation: {
         lat: 0,
@@ -121,7 +130,7 @@ export default {
   },
   methods: {
     geolocation() {
-      navigator.geolocation.getCurrentPosition(
+      navigator.geolocation.watchPosition(
         position => {
           this.currentLocation = {
             lat: position.coords.latitude,
