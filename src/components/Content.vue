@@ -14,7 +14,7 @@
       <div class="collection">
         <!-- <a href="#!" class="collection-item tooltipped" data-position="top" data-tooltip="I am a tooltip"><span v-bind:class="badgecolor.none">{{currentLocation.lat}}</span><strong>User latitude </strong></a>
         <a href="#!" class="collection-item tooltipped" data-position="top" data-tooltip="I am a tooltip"><span v-bind:class="badgecolor.none">{{currentLocation.lng}}</span><strong>User longitude</strong></a> -->
-        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
+        <a href="#!" class="collection-item modal-trigger" data-target="modal1"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
         <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>sensor name</strong></a>
         <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
         <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.aqi}}</span><strong>Air quality index (AQI)</strong></a>
@@ -34,6 +34,35 @@
         </gmap-map>
       </div>
     </div>
+    <!-- <div class="col s12">
+      <ul class="collapsible">
+        <li>
+          <div class="collapsible-header">
+            <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
+          </div>
+          <div class="collapsible-body"><span>{{info.o3}}</span></div>
+        </li>
+        <li>
+          <div class="collapsible-header">
+            <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>sensor name</strong></a>
+          </div>
+          <div class="collapsible-body"><span>{{info.sensor}}</span></div>
+        </li>
+      </ul>
+    </div> -->
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+      <div class="modal-content">
+        <h4>Modal Header</h4>
+        <p>A bunch of text</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+      </div>
+    </div>
+
+
   </div>
 </div>
 </template>
@@ -143,6 +172,7 @@ export default {
     this.FetchApiData();
   },
   methods: {
+    materializeInit() {},
     geolocation() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
