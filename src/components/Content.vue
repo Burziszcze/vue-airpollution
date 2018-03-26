@@ -77,7 +77,7 @@ export default {
       info: {
         time: "displays the time of the last measurement update",
         station: "displays data updates from the nearest measurement station",
-        name: "displays the name of the measuring station",
+        name: "displays the name of the nearest measuring station",
         dominent: "displays the current dominant pollution",
         aqi:
           "air quality index (AQI) is an overview of air quality at each air monitoring site. The lower the index, the better the air quality is.",
