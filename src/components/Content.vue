@@ -9,24 +9,20 @@
       <button @click="displayData" class="waves-effect waves-light btn red pulse center" id="getlocation">show data</button>
       <p>press the button to present data</p>
     </div>
-    <!-- <slide-y-up-transition :duration="600"> -->
     <div class="col s12 m6">
       <div class="collection">
-        <!-- <a href="#!" class="collection-item tooltipped" data-position="top" data-tooltip="I am a tooltip"><span v-bind:class="badgecolor.none">{{currentLocation.lat}}</span><strong>User latitude </strong></a>
-        <a href="#!" class="collection-item tooltipped" data-position="top" data-tooltip="I am a tooltip"><span v-bind:class="badgecolor.none">{{currentLocation.lng}}</span><strong>User longitude</strong></a> -->
-        <a href="#!" class="collection-item modal-trigger" data-target="modal1"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
-        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>sensor name</strong></a>
-        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
-        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.aqi}}</span><strong>Air quality index (AQI)</strong></a>
-        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.co">{{data.iaqi.co.v}}</span><strong>Carbon monoxide (CO)</strong></a>
-        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.so2">{{data.iaqi.so2.v}}</span><strong>Sulfur dioxide (SO2)</strong></a>
-        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.no2">{{data.iaqi.no2.v}}</span><strong>Nitrogen dioxide (NO2)</strong></a>
-        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.o3">{{data.iaqi.o3.v}}</span><strong>Ozone (O3)</strong></a>
-        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.pm10">{{data.iaqi.pm10.v}}</span><strong>PM10</strong></a>
-        <a href="#!" class="collection-item"><span v-bind:class="badgecolor.aqi">{{data.iaqi.pm25.v}}</span><strong>PM2.5</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.time)"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.name)"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>sensor name</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.dominent)"><span v-bind:class="badgecolor.aqi">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.aqi)"><span v-bind:class="badgecolor.aqi">{{data.aqi}}</span><strong>Air quality index (AQI)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.co2)"><span v-bind:class="badgecolor.co">{{data.iaqi.co.v}}</span><strong>Carbon monoxide (CO)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.so2)"><span v-bind:class="badgecolor.so2">{{data.iaqi.so2.v}}</span><strong>Sulfur dioxide (SO2)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.no2)"><span v-bind:class="badgecolor.no2">{{data.iaqi.no2.v}}</span><strong>Nitrogen dioxide (NO2)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.o3)"><span v-bind:class="badgecolor.o3">{{data.iaqi.o3.v}}</span><strong>Ozone (O3)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.pm10)"><span v-bind:class="badgecolor.pm10">{{data.iaqi.pm10.v}}</span><strong>PM10</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.pm25)"><span v-bind:class="badgecolor.aqi">{{data.iaqi.pm25.v}}</span><strong>PM2.5</strong></a>
       </div>
     </div>
-    <!-- </slide-y-up-transition> -->
     <div class="col s12 m6">
       <div class="card">
         <gmap-map :center="{lat:currentLocation.lat, lng:currentLocation.lng}" :zoom="10" style="width: 100%; height: 430px">
@@ -34,44 +30,13 @@
         </gmap-map>
       </div>
     </div>
-    <!-- <div class="col s12">
-      <ul class="collapsible">
-        <li>
-          <div class="collapsible-header">
-            <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
-          </div>
-          <div class="collapsible-body"><span>{{info.o3}}</span></div>
-        </li>
-        <li>
-          <div class="collapsible-header">
-            <a href="#!" class="collection-item"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>sensor name</strong></a>
-          </div>
-          <div class="collapsible-body"><span>{{info.sensor}}</span></div>
-        </li>
-      </ul>
-    </div> -->
-
-    <!-- Modal Structure -->
-    <div id="modal1" class="modal">
-      <div class="modal-content">
-        <h4>Modal Header</h4>
-        <p>A bunch of text</p>
-      </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-      </div>
-    </div>
-
-
   </div>
 </div>
 </template>
 <script>
-import {
-  SlideYUpTransition
-} from 'vue2-transitions';
+import { SlideYUpTransition } from "vue2-transitions";
 import axios from "axios";
-import swal from 'sweetalert';
+import swal from "sweetalert";
 import * as VueGoogleMaps from "vue2-google-maps";
 import Vue from "vue";
 
@@ -89,13 +54,13 @@ export default {
   },
   data() {
     return {
-      show: false,
       fetchedData: [],
       currentLocation: {
         lat: 0,
         lng: 0
       },
-      markers: [{
+      markers: [
+        {
           position: {
             lat: 0,
             lng: 0
@@ -117,13 +82,20 @@ export default {
         station: "displays data updates from the nearest measurement station",
         name: "displays the name of the measuring station",
         dominent: "displays the current dominant pollution",
-        aqi: "air quality index (AQI) is an overview of air quality at each air monitoring site. The lower the index, the better the air quality is.",
-        co2: "Carbon monoxide is taken up by blood much more readily than oxygen is, so relatively small amounts of it in inhaled air can affect our health. Prolonged exposure to carbon monoxide can cause tissue damage. People suffering from cardiovascular disease are particularly at risk.",
-        so2: "Sulfur dioxide is an irritant gas that attacks the throat and lungs. Its effect on health is increased by the presence of airborne particles. Prolonged exposure to sulfur dioxide can lead to increases in respiratory illnesses like chronic bronchitis.",
-        no2: "Nitrogen dioxide is known to affect the throat and the lungs. In levels encountered in polluted air, people with respiratory problems, particularly infants, children and the elderly, may be affected. People with asthma are often sensitive to nitrogen dioxide.",
-        o3: "Ozone occurs in the upper atmosphere, where it serves a useful purpose in protecting us from UV radiation. Ozone can also occur near the ground where we breathe. Ozone is very reactive, affecting the linings of the throat and lungs, restricting the air passages and making breathing difficult. It also increases the risk of respiratory infections. Ozone is of greater concern for the elderly and those with existing lung disease.",
-        pm10: "Particle pollution is a mixture of solid particles and liquid droplets. there are two categories of particle size: PM2.5 and PM10. These particles are very small and are measured in micrometres (µm). High levels of PM10 particles in the air can irritate the eyes and throat. People with existing heart or lung conditions (including asthma) can experience an increase in symptoms, including wheezing, chest tightness and difficulty breathing. Common sources of PM10 particles include sea salt, pollen and combustion activities such as motor vehicles and industrial processes. Dust from unsealed roads is a major source of PM10 particles.",
-        pm25: "PM2.5 particles are smaller than 2.5 micrometres (0.0025 mm) in diameter. Often described as fine particles, they are up to 30 times smaller than the width of a human hair. PM2.5 particles are small enough to be breathed deep into the lungs. This can cause health effects. Children, people over 65, pregnant women and people with existing heart or lung conditions (including asthma) are more sensitive to the effects of breathing in fine particles. Symptoms may include wheezing, chest tightness and difficulty breathing."
+        aqi:
+          "air quality index (AQI) is an overview of air quality at each air monitoring site. The lower the index, the better the air quality is.",
+        co2:
+          "Carbon monoxide is taken up by blood much more readily than oxygen is, so relatively small amounts of it in inhaled air can affect our health. Prolonged exposure to carbon monoxide can cause tissue damage. People suffering from cardiovascular disease are particularly at risk.",
+        so2:
+          "Sulfur dioxide is an irritant gas that attacks the throat and lungs. Its effect on health is increased by the presence of airborne particles. Prolonged exposure to sulfur dioxide can lead to increases in respiratory illnesses like chronic bronchitis.",
+        no2:
+          "Nitrogen dioxide is known to affect the throat and the lungs. In levels encountered in polluted air, people with respiratory problems, particularly infants, children and the elderly, may be affected. People with asthma are often sensitive to nitrogen dioxide.",
+        o3:
+          "Ozone occurs in the upper atmosphere, where it serves a useful purpose in protecting us from UV radiation. Ozone can also occur near the ground where we breathe. Ozone is very reactive, affecting the linings of the throat and lungs, restricting the air passages and making breathing difficult. It also increases the risk of respiratory infections. Ozone is of greater concern for the elderly and those with existing lung disease.",
+        pm10:
+          "Particle pollution is a mixture of solid particles and liquid droplets. there are two categories of particle size: PM2.5 and PM10. These particles are very small and are measured in micrometres (µm). High levels of PM10 particles in the air can irritate the eyes and throat. People with existing heart or lung conditions (including asthma) can experience an increase in symptoms, including wheezing, chest tightness and difficulty breathing. Common sources of PM10 particles include sea salt, pollen and combustion activities such as motor vehicles and industrial processes. Dust from unsealed roads is a major source of PM10 particles.",
+        pm25:
+          "PM2.5 particles are smaller than 2.5 micrometres (0.0025 mm) in diameter. Often described as fine particles, they are up to 30 times smaller than the width of a human hair. PM2.5 particles are small enough to be breathed deep into the lungs. This can cause health effects. Children, people over 65, pregnant women and people with existing heart or lung conditions (including asthma) are more sensitive to the effects of breathing in fine particles. Symptoms may include wheezing, chest tightness and difficulty breathing."
       },
       badgecolor: {
         none: "badge grey lighten-1",
@@ -172,10 +144,15 @@ export default {
     this.FetchApiData();
   },
   methods: {
-    materializeInit() {},
+    showModal(event) {
+      swal({
+        icon: "info",
+        text: event
+      });
+    },
     geolocation() {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
+        position => {
           this.currentLocation = {
             lat: position.coords.latitude,
             lng: position.coords.longitude
@@ -183,7 +160,8 @@ export default {
         },
         error => {
           swal("something went wrong and  " + error.message);
-        }, {
+        },
+        {
           enableHighAccuracy: false,
           maximumAge: 0,
           timeout: 60000
@@ -203,10 +181,10 @@ export default {
         token;
       axios
         .get(url)
-        .then((response) => {
+        .then(response => {
           this.fetchedData = response.data;
         })
-        .catch((error) => {
+        .catch(error => {
           swal(error.message);
         });
     },
@@ -227,7 +205,7 @@ export default {
           // "https://api.waqi.info/feed/geo:51.5647774;-0.35290879999999997/?token=9648d934b001fa967ab0bebf65abb7f010ffb93d"
           url
         )
-        .then((response) => {
+        .then(response => {
           // JSON responses are automatically parsed.
           let stationCoords = response.data.data.city.geo;
           let data = response.data.data;
@@ -275,7 +253,8 @@ export default {
               },
               closeOnEsc: true,
               title: "AQI " + aqi + " status: " + "Good",
-              text: "Only very few hypersensitive people should reduce outdoor activities."
+              text:
+                "Only very few hypersensitive people should reduce outdoor activities."
             });
           } else if (aqi >= 101 && aqi <= 150) {
             this.badgecolor.aqi = "badge orange";
@@ -286,7 +265,8 @@ export default {
               },
               closeOnEsc: true,
               title: "AQI " + aqi + " status: " + "Lightly Polluted",
-              text: "Healthy people may experience slight irritations and sensitive individuals will be slightly affected to a larger extent."
+              text:
+                "Healthy people may experience slight irritations and sensitive individuals will be slightly affected to a larger extent."
             });
           } else if (aqi >= 151 && aqi <= 200) {
             this.badgecolor.aqi = "badge red";
@@ -297,7 +277,8 @@ export default {
               },
               closeOnEsc: true,
               title: "AQI " + aqi + " status: " + "Moderately Polluted",
-              text: "Sensitive individuals will experience more serious conditions. The hearts and respiratory systems of healthy people may be affected."
+              text:
+                "Sensitive individuals will experience more serious conditions. The hearts and respiratory systems of healthy people may be affected."
             });
           } else if (aqi >= 201 && aqi <= 300) {
             this.badgecolor.aqi = "badge purple";
@@ -308,7 +289,8 @@ export default {
               },
               closeOnEsc: true,
               title: "AQI " + aqi + " status: " + "Heavily Polluted",
-              text: "Healthy people will commonly show symptoms. People with respiratory or heart diseases will be significantly affected and will experience reduced endurance in activities."
+              text:
+                "Healthy people will commonly show symptoms. People with respiratory or heart diseases will be significantly affected and will experience reduced endurance in activities."
             });
           } else {
             this.badgecolor.aqi = "badge red accent-4";
@@ -319,7 +301,8 @@ export default {
               },
               closeOnEsc: true,
               title: "AQI " + aqi + " status: " + "Severely Polluted",
-              text: "Healthy people will experience reduced endurance in activities and may also show noticeably strong symptoms. Other illnesses may be triggered in healthy people. Elders and the sick should remain indoors and avoid exercise. Healthy individuals should avoid outdoor activities."
+              text:
+                "Healthy people will experience reduced endurance in activities and may also show noticeably strong symptoms. Other illnesses may be triggered in healthy people. Elders and the sick should remain indoors and avoid exercise. Healthy individuals should avoid outdoor activities."
             });
           }
           // change CO badge color
@@ -393,16 +376,15 @@ export default {
 
 <style scoped>
 #title-heading-font {
-  font-family: 'Fugaz One';
+  font-family: "Fugaz One";
   color: #343434;
 }
 
 #title-description-font {
   color: #343434;
   font-size: 1.5em;
-  font-family: 'Fugaz One';
+  font-family: "Fugaz One";
 }
-
 
 #cloud-icon {
   font-size: 10rem;
