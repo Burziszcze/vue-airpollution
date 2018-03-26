@@ -49,9 +49,6 @@ Vue.use(VueGoogleMaps, {
 });
 
 export default {
-  components: {
-    SlideYUpTransition
-  },
   data() {
     return {
       fetchedData: [],
