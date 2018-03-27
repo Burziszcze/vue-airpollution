@@ -31,12 +31,12 @@ export default {
   flex: 1 0 auto;
   background-image: url("assets/images/img_1.png");
   background-size: cover;
+  background-size: auto;
 }
 
 nav {
   color: #fff;
   font-size: 2.1rem;
-
 }
 
 main {
@@ -57,7 +57,7 @@ main {
   border-color: #ffeb3b;
 }
 .swal-button {
-  color: rgba(0,0,0,.64);
+  color: rgba(0, 0, 0, 0.64);
 }
 
 /*show preloader before content load*/

@@ -22,6 +22,19 @@
         <a href="#!" class="collection-item" @click="showModal(info.pm10)"><span v-bind:class="badgecolor.pm10">{{data.iaqi.pm10.v}}</span><strong>PM10</strong></a>
         <a href="#!" class="collection-item" @click="showModal(info.pm25)"><span v-bind:class="badgecolor.aqi">{{data.iaqi.pm25.v}}</span><strong>PM2.5</strong></a>
       </div>
+      
+            <!-- <div class="collection">
+        <a href="#!" class="collection-item" @click="showModal(info.time)"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.name)"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>sensor name</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.dominent)"><span v-bind:class="badgecolor.aqi">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.aqi)"><span v-bind:class="badgecolor.aqi">{{data.aqi}}</span><strong>Air quality index (AQI)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.co2)"><span v-bind:class="badgecolor.co">{{data.iaqi.co.v}}</span><strong>Carbon monoxide (CO)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.so2)"><span v-bind:class="badgecolor.so2">{{data.iaqi.so2.v}}</span><strong>Sulfur dioxide (SO2)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.no2)"><span v-bind:class="badgecolor.no2">{{data.iaqi.no2.v}}</span><strong>Nitrogen dioxide (NO2)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.o3)"><span v-bind:class="badgecolor.o3">{{data.iaqi.o3.v}}</span><strong>Ozone (O3)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.pm10)"><span v-bind:class="badgecolor.pm10">{{data.iaqi.pm10.v}}</span><strong>PM10</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.pm25)"><span v-bind:class="badgecolor.aqi">{{data.iaqi.pm25.v}}</span><strong>PM2.5</strong></a>
+      </div> -->
     </div>
     <div class="col s12 m6">
       <div class="card">
@@ -156,7 +169,7 @@ export default {
           };
         },
         error => {
-          swal("something went wrong and  " + error.message);
+          swal(`something went wrong and  ${error.message}`);
         },
         {
           enableHighAccuracy: false,
@@ -166,42 +179,44 @@ export default {
       );
     },
     FetchApiData() {
-      const token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
-      let lat = this.currentLocation.lat;
-      let lng = this.currentLocation.lng;
-      let url =
-        "https://api.waqi.info/feed/geo:" +
-        lat +
-        ";" +
-        lng +
-        "/?token=" +
-        token;
+      //token 1
+      // const token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
+      // token 2
+      const token = "93c02481cce155373a9f1a7192cc0246dbeb9be6";
+      // let lat = this.currentLocation.lat;
+      // let lng = this.currentLocation.lng;
+      const lat = "51.5073509";
+      const lng = "-0.12775829999998223";
+      let url = `https://api.waqi.info/feed/geo:${lat};${lng}/?token=${token}`;
       axios
-        .get(url)
+        .get(url, {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
         .then(response => {
           this.fetchedData = response.data;
         })
         .catch(error => {
-          swal(error.message);
+          swal(`${error.message}`);
         });
     },
     markerCoordinates() {},
     displayData() {
-      let token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
-      let lat = this.currentLocation.lat;
-      let lng = this.currentLocation.lng;
-      let url =
-        "https://api.waqi.info/feed/geo:" +
-        lat +
-        ";" +
-        lng +
-        "/?token=" +
-        token;
+      // const token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
+      const token = "93c02481cce155373a9f1a7192cc0246dbeb9be6";
+      // let lat = this.currentLocation.lat;
+      // let lng = this.currentLocation.lng;
+      const lat = "51.5073509";
+      const lng = "-0.12775829999998223";
+      console.log(`lat is ${lat} and lng is: ${lng}`);
+      let url = `https://api.waqi.info/feed/geo:${lat};${lng}/?token=${token}`;
       axios
-        .get(
-          // "https://api.waqi.info/feed/geo:51.5647774;-0.35290879999999997/?token=9648d934b001fa967ab0bebf65abb7f010ffb93d"
-          url
-        )
+        .get(url, {
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          }
+        })
         .then(response => {
           // JSON responses are automatically parsed.
           let stationCoords = response.data.data.city.geo;
@@ -364,7 +379,7 @@ export default {
           }
         })
         .catch(error => {
-          swal(error.message);
+          swal(`${error.message}`);
         });
     }
   }
