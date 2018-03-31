@@ -78,4 +78,3 @@ module.exports = {
 function token() {
   return '9648d934b001fa967ab0bebf65abb7f010ffb93d';
 }
-

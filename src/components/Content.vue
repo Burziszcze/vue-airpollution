@@ -8,8 +8,36 @@
       <p id="title-description-font">check the air pollution in your area</p>
       <button @click="displayData" class="waves-effect waves-light btn red pulse center" id="getlocation">show data</button>
       <p>press the button to present data</p>
+
+      <div class="preloader-wrapper big active" v-if="loading">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div>
+          <div class="gap-patch">
+            <div class="circle"></div>
+          </div>
+          <div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+
     </div>
     <div class="col s12 m6">
+      <!-- <div class="collection">
+        <a href="#!" class="collection-item" @click="showModal(info.time)"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.name)"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>sensor name</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.dominent)"><span v-bind:class="badgecolor.aqi">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.aqi)"><span v-bind:class="badgecolor.aqi">{{data.aqi}}</span><strong>Air quality index (AQI)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.co2)"><span v-bind:class="badgecolor.co">{{data.iaqi.co.v}}</span><strong>Carbon monoxide (CO)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.so2)"><span v-bind:class="badgecolor.so2">{{data.iaqi.so2.v}}</span><strong>Sulfur dioxide (SO2)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.no2)"><span v-bind:class="badgecolor.no2">{{data.iaqi.no2.v}}</span><strong>Nitrogen dioxide (NO2)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.o3)"><span v-bind:class="badgecolor.o3">{{data.iaqi.o3.v}}</span><strong>Ozone (O3)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.pm10)"><span v-bind:class="badgecolor.pm10">{{data.iaqi.pm10.v}}</span><strong>PM10</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.pm25)"><span v-bind:class="badgecolor.aqi">{{data.iaqi.pm25.v}}</span><strong>PM2.5</strong></a>
+      </div> -->
+
       <div class="collection">
         <a href="#!" class="collection-item" @click="showModal(info.time)"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
         <a href="#!" class="collection-item" @click="showModal(info.name)"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>sensor name</strong></a>
@@ -34,7 +62,9 @@
 </div>
 </template>
 <script>
-import { SlideYUpTransition } from "vue2-transitions";
+import {
+  SlideYUpTransition
+} from "vue2-transitions";
 import axios from "axios";
 import swal from "sweetalert";
 import * as VueGoogleMaps from "vue2-google-maps";
@@ -56,17 +86,16 @@ export default {
         lat: 0,
         lng: 0
       },
-      markers: [
-        {
+      markers: [{
           position: {
-            lat: 0,
-            lng: 0
+            lat: this.city,
+            lng: this.city
           }
         },
         {
           position: {
-            lat: 0,
-            lng: 0
+            lat: this.city,
+            lng: this.city
           }
         }
       ],
@@ -79,20 +108,13 @@ export default {
         station: "displays data updates from the nearest measurement station",
         name: "displays the name of the nearest measuring station",
         dominent: "displays the current dominant pollution",
-        aqi:
-          "air quality index (AQI) is an overview of air quality at each air monitoring site. The lower the index, the better the air quality is.",
-        co2:
-          "Carbon monoxide is taken up by blood much more readily than oxygen is, so relatively small amounts of it in inhaled air can affect our health. Prolonged exposure to carbon monoxide can cause tissue damage. People suffering from cardiovascular disease are particularly at risk.",
-        so2:
-          "Sulfur dioxide is an irritant gas that attacks the throat and lungs. Its effect on health is increased by the presence of airborne particles. Prolonged exposure to sulfur dioxide can lead to increases in respiratory illnesses like chronic bronchitis.",
-        no2:
-          "Nitrogen dioxide is known to affect the throat and the lungs. In levels encountered in polluted air, people with respiratory problems, particularly infants, children and the elderly, may be affected. People with asthma are often sensitive to nitrogen dioxide.",
-        o3:
-          "Ozone occurs in the upper atmosphere, where it serves a useful purpose in protecting us from UV radiation. Ozone can also occur near the ground where we breathe. Ozone is very reactive, affecting the linings of the throat and lungs, restricting the air passages and making breathing difficult. It also increases the risk of respiratory infections. Ozone is of greater concern for the elderly and those with existing lung disease.",
-        pm10:
-          "Particle pollution is a mixture of solid particles and liquid droplets. there are two categories of particle size: PM2.5 and PM10. These particles are very small and are measured in micrometres (µm). High levels of PM10 particles in the air can irritate the eyes and throat. People with existing heart or lung conditions (including asthma) can experience an increase in symptoms, including wheezing, chest tightness and difficulty breathing. Common sources of PM10 particles include sea salt, pollen and combustion activities such as motor vehicles and industrial processes. Dust from unsealed roads is a major source of PM10 particles.",
-        pm25:
-          "PM2.5 particles are smaller than 2.5 micrometres (0.0025 mm) in diameter. Often described as fine particles, they are up to 30 times smaller than the width of a human hair. PM2.5 particles are small enough to be breathed deep into the lungs. This can cause health effects. Children, people over 65, pregnant women and people with existing heart or lung conditions (including asthma) are more sensitive to the effects of breathing in fine particles. Symptoms may include wheezing, chest tightness and difficulty breathing."
+        aqi: "air quality index (AQI) is an overview of air quality at each air monitoring site. The lower the index, the better the air quality is.",
+        co2: "Carbon monoxide is taken up by blood much more readily than oxygen is, so relatively small amounts of it in inhaled air can affect our health. Prolonged exposure to carbon monoxide can cause tissue damage. People suffering from cardiovascular disease are particularly at risk.",
+        so2: "Sulfur dioxide is an irritant gas that attacks the throat and lungs. Its effect on health is increased by the presence of airborne particles. Prolonged exposure to sulfur dioxide can lead to increases in respiratory illnesses like chronic bronchitis.",
+        no2: "Nitrogen dioxide is known to affect the throat and the lungs. In levels encountered in polluted air, people with respiratory problems, particularly infants, children and the elderly, may be affected. People with asthma are often sensitive to nitrogen dioxide.",
+        o3: "Ozone occurs in the upper atmosphere, where it serves a useful purpose in protecting us from UV radiation. Ozone can also occur near the ground where we breathe. Ozone is very reactive, affecting the linings of the throat and lungs, restricting the air passages and making breathing difficult. It also increases the risk of respiratory infections. Ozone is of greater concern for the elderly and those with existing lung disease.",
+        pm10: "Particle pollution is a mixture of solid particles and liquid droplets. there are two categories of particle size: PM2.5 and PM10. These particles are very small and are measured in micrometres (µm). High levels of PM10 particles in the air can irritate the eyes and throat. People with existing heart or lung conditions (including asthma) can experience an increase in symptoms, including wheezing, chest tightness and difficulty breathing. Common sources of PM10 particles include sea salt, pollen and combustion activities such as motor vehicles and industrial processes. Dust from unsealed roads is a major source of PM10 particles.",
+        pm25: "PM2.5 particles are smaller than 2.5 micrometres (0.0025 mm) in diameter. Often described as fine particles, they are up to 30 times smaller than the width of a human hair. PM2.5 particles are small enough to be breathed deep into the lungs. This can cause health effects. Children, people over 65, pregnant women and people with existing heart or lung conditions (including asthma) are more sensitive to the effects of breathing in fine particles. Symptoms may include wheezing, chest tightness and difficulty breathing."
       },
       badgecolor: {
         none: "badge grey lighten-1",
@@ -156,10 +178,9 @@ export default {
           };
         },
         error => {
-          swal("something went wrong and  " + error.message);
-        },
-        {
-          enableHighAccuracy: false,
+          swal(`something went wrong and  ${error.message}`);
+        }, {
+          enableHighAccuracy: true,
           maximumAge: 0,
           timeout: 60000
         }
@@ -169,39 +190,27 @@ export default {
       const token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
       let lat = this.currentLocation.lat;
       let lng = this.currentLocation.lng;
-      let url =
-        "https://api.waqi.info/feed/geo:" +
-        lat +
-        ";" +
-        lng +
-        "/?token=" +
-        token;
+      let url = `https://api.waqi.info/feed/geo:${lat};${lng}/?token=${token}`;
       axios
         .get(url)
         .then(response => {
           this.fetchedData = response.data;
         })
         .catch(error => {
-          swal(error.message);
+          swal(`${error.message}`);
         });
     },
     markerCoordinates() {},
     displayData() {
-      let token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
+      this.loading = true;
+      const token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
       let lat = this.currentLocation.lat;
       let lng = this.currentLocation.lng;
-      let url =
-        "https://api.waqi.info/feed/geo:" +
-        lat +
-        ";" +
-        lng +
-        "/?token=" +
-        token;
+
+      console.log(`lat is ${lat} and lng is: ${lng}`);
+      let url = `https://api.waqi.info/feed/geo:${lat};${lng}/?token=${token}`;
       axios
-        .get(
-          // "https://api.waqi.info/feed/geo:51.5647774;-0.35290879999999997/?token=9648d934b001fa967ab0bebf65abb7f010ffb93d"
-          url
-        )
+        .get(url)
         .then(response => {
           // JSON responses are automatically parsed.
           let stationCoords = response.data.data.city.geo;
@@ -228,6 +237,7 @@ export default {
           this.o3 = o3;
           this.pm10 = pm10;
           this.city = city;
+          this.loading = false;
 
           // change aqi badge color
           if (aqi >= 0 && aqi <= 50) {
@@ -250,8 +260,7 @@ export default {
               },
               closeOnEsc: true,
               title: "AQI " + aqi + " status: " + "Good",
-              text:
-                "Only very few hypersensitive people should reduce outdoor activities."
+              text: "Only very few hypersensitive people should reduce outdoor activities."
             });
           } else if (aqi >= 101 && aqi <= 150) {
             this.badgecolor.aqi = "badge orange";
@@ -262,8 +271,7 @@ export default {
               },
               closeOnEsc: true,
               title: "AQI " + aqi + " status: " + "Lightly Polluted",
-              text:
-                "Healthy people may experience slight irritations and sensitive individuals will be slightly affected to a larger extent."
+              text: "Healthy people may experience slight irritations and sensitive individuals will be slightly affected to a larger extent."
             });
           } else if (aqi >= 151 && aqi <= 200) {
             this.badgecolor.aqi = "badge red";
@@ -274,8 +282,7 @@ export default {
               },
               closeOnEsc: true,
               title: "AQI " + aqi + " status: " + "Moderately Polluted",
-              text:
-                "Sensitive individuals will experience more serious conditions. The hearts and respiratory systems of healthy people may be affected."
+              text: "Sensitive individuals will experience more serious conditions. The hearts and respiratory systems of healthy people may be affected."
             });
           } else if (aqi >= 201 && aqi <= 300) {
             this.badgecolor.aqi = "badge purple";
@@ -286,8 +293,7 @@ export default {
               },
               closeOnEsc: true,
               title: "AQI " + aqi + " status: " + "Heavily Polluted",
-              text:
-                "Healthy people will commonly show symptoms. People with respiratory or heart diseases will be significantly affected and will experience reduced endurance in activities."
+              text: "Healthy people will commonly show symptoms. People with respiratory or heart diseases will be significantly affected and will experience reduced endurance in activities."
             });
           } else {
             this.badgecolor.aqi = "badge red accent-4";
@@ -298,8 +304,7 @@ export default {
               },
               closeOnEsc: true,
               title: "AQI " + aqi + " status: " + "Severely Polluted",
-              text:
-                "Healthy people will experience reduced endurance in activities and may also show noticeably strong symptoms. Other illnesses may be triggered in healthy people. Elders and the sick should remain indoors and avoid exercise. Healthy individuals should avoid outdoor activities."
+              text: "Healthy people will experience reduced endurance in activities and may also show noticeably strong symptoms. Other illnesses may be triggered in healthy people. Elders and the sick should remain indoors and avoid exercise. Healthy individuals should avoid outdoor activities."
             });
           }
           // change CO badge color
@@ -363,8 +368,13 @@ export default {
             this.badgecolor.pm10 = "badge purple";
           }
         })
+        .bind(this)
+        .catch(() => {
+          this.loading = false;
+        })
+        .bind(this)
         .catch(error => {
-          swal(error.message);
+          swal(`${error.message}`);
         });
     }
   }
