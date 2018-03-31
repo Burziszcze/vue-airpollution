@@ -8,6 +8,21 @@
       <p id="title-description-font">check the air pollution in your area</p>
       <button @click="displayData" class="waves-effect waves-light btn red pulse center" id="getlocation">show data</button>
       <p>press the button to present data</p>
+
+      <div class="preloader-wrapper big active" v-if="loading">
+        <div class="spinner-layer spinner-blue-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div>
+          <div class="gap-patch">
+            <div class="circle"></div>
+          </div>
+          <div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+
     </div>
     <div class="col s12 m6">
       <!-- <div class="collection">
@@ -73,14 +88,14 @@ export default {
       },
       markers: [{
           position: {
-            lat: 0,
-            lng: 0
+            lat: this.city,
+            lng: this.city
           }
         },
         {
           position: {
-            lat: 0,
-            lng: 0
+            lat: this.city,
+            lng: this.city
           }
         }
       ],
@@ -175,7 +190,7 @@ export default {
       const token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
       let lat = this.currentLocation.lat;
       let lng = this.currentLocation.lng;
-      let url = `http://api.waqi.info/feed/geo:${lat};${lng}/?token=${token}`;
+      let url = `https://api.waqi.info/feed/geo:${lat};${lng}/?token=${token}`;
       axios
         .get(url)
         .then(response => {
@@ -187,12 +202,13 @@ export default {
     },
     markerCoordinates() {},
     displayData() {
+      this.loading = true;
       const token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
       let lat = this.currentLocation.lat;
       let lng = this.currentLocation.lng;
 
       console.log(`lat is ${lat} and lng is: ${lng}`);
-      let url = `http://api.waqi.info/feed/geo:${lat};${lng}/?token=${token}`;
+      let url = `https://api.waqi.info/feed/geo:${lat};${lng}/?token=${token}`;
       axios
         .get(url)
         .then(response => {
@@ -221,6 +237,7 @@ export default {
           this.o3 = o3;
           this.pm10 = pm10;
           this.city = city;
+          this.loading = false;
 
           // change aqi badge color
           if (aqi >= 0 && aqi <= 50) {
@@ -351,6 +368,11 @@ export default {
             this.badgecolor.pm10 = "badge purple";
           }
         })
+        .bind(this)
+        .catch(() => {
+          this.loading = false;
+        })
+        .bind(this)
         .catch(error => {
           swal(`${error.message}`);
         });

@@ -1,13 +1,13 @@
 # vue-airpollution
 
 > vue application that serve air pollution condition to user by aqcin.org API
-
-> app deployed at Heroku https://vue-airpollution.herokuapp.com/
-> app also deployed at Firebase https://vue-airpollutionapp.firebaseapp.com/
+>
+> app deployed at Heroku <https://vue-airpollution.herokuapp.com/>
+> app also deployed at Firebase <https://vue-airpollutionapp.firebaseapp.com/>
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 

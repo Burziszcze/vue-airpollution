@@ -24,6 +24,6 @@ app.listen(port);
 console.log('server started at port ' + port);
 
 app.listen(app.get('port'), () => {
-    console.log('%s App is running at http://localhost:%d in %s mode', app.get('port'), app.get('env'));
+    console.log(`app is running at port: ${port}`);
     console.log('  Press CTRL-C to stop\n');
   });
