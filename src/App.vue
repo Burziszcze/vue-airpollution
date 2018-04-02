@@ -90,4 +90,7 @@ footer a:hover {
 footer a {
   color: white;
 }
+#getYear {
+  color: white;
+}
 </style>
