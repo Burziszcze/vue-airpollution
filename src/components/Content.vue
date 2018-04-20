@@ -25,6 +25,23 @@
 
     </div>
     <div class="col s12 m6">
+      <!-- <div class="collection">
+        <a href="#!" class="collection-item"><span class="badge light-green">{{currentLocation.lat}}</span><strong>latitude</strong></a>
+        <a href="#!" class="collection-item"><span class="badge light-green">{{currentLocation.lng}}</span><strong>longitude</strong></a>
+
+
+        <a href="#!" class="collection-item" @click="showModal(info.time)"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.name)"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>sensor name</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.dominent)"><span v-bind:class="badgecolor.aqi">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.aqi)"><span v-bind:class="badgecolor.aqi">{{data.aqi}}</span><strong>Air quality index (AQI)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.co2)"><span v-bind:class="badgecolor.co">{{data.iaqi.co.v}}</span><strong>Carbon monoxide (CO)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.so2)"><span v-bind:class="badgecolor.so2">{{data.iaqi.so2.v}}</span><strong>Sulfur dioxide (SO2)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.no2)"><span v-bind:class="badgecolor.no2">{{data.iaqi.no2.v}}</span><strong>Nitrogen dioxide (NO2)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.o3)"><span v-bind:class="badgecolor.o3">{{data.iaqi.o3.v}}</span><strong>Ozone (O3)</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.pm10)"><span v-bind:class="badgecolor.pm10">{{data.iaqi.pm10.v}}</span><strong>PM10</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.pm25)"><span v-bind:class="badgecolor.aqi">{{data.iaqi.pm25.v}}</span><strong>PM2.5</strong></a>
+      </div> -->
+
       <div class="collection">
         <a href="#!" class="collection-item" @click="showModal(info.time)"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
         <a href="#!" class="collection-item" @click="showModal(info.name)"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>sensor name</strong></a>
@@ -37,19 +54,6 @@
         <a href="#!" class="collection-item" @click="showModal(info.pm10)"><span v-bind:class="badgecolor.pm10">{{data.iaqi.pm10.v}}</span><strong>PM10</strong></a>
         <a href="#!" class="collection-item" @click="showModal(info.pm25)"><span v-bind:class="badgecolor.aqi">{{data.iaqi.pm25.v}}</span><strong>PM2.5</strong></a>
       </div>
-
-      <!-- <div class="collection">
-        <a href="#!" class="collection-item" @click="showModal(info.time)"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
-        <a href="#!" class="collection-item" @click="showModal(info.name)"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>sensor name</strong></a>
-        <a href="#!" class="collection-item" @click="showModal(info.dominent)"><span v-bind:class="badgecolor.aqi">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
-        <a href="#!" class="collection-item" @click="showModal(info.aqi)"><span v-bind:class="badgecolor.aqi">{{data.aqi}}</span><strong>Air quality index (AQI)</strong></a>
-        <a href="#!" class="collection-item" @click="showModal(info.co2)"><span v-bind:class="badgecolor.co">{{data.iaqi.co.v}}</span><strong>Carbon monoxide (CO)</strong></a>
-        <a href="#!" class="collection-item" @click="showModal(info.so2)"><span v-bind:class="badgecolor.so2">{{data.iaqi.so2.v}}</span><strong>Sulfur dioxide (SO2)</strong></a>
-        <a href="#!" class="collection-item" @click="showModal(info.no2)"><span v-bind:class="badgecolor.no2">{{data.iaqi.no2.v}}</span><strong>Nitrogen dioxide (NO2)</strong></a>
-        <a href="#!" class="collection-item" @click="showModal(info.o3)"><span v-bind:class="badgecolor.o3">{{data.iaqi.o3.v}}</span><strong>Ozone (O3)</strong></a>
-        <a href="#!" class="collection-item" @click="showModal(info.pm10)"><span v-bind:class="badgecolor.pm10">{{data.iaqi.pm10.v}}</span><strong>PM10</strong></a>
-        <a href="#!" class="collection-item" @click="showModal(info.pm25)"><span v-bind:class="badgecolor.aqi">{{data.iaqi.pm25.v}}</span><strong>PM2.5</strong></a>
-      </div> -->
     </div>
     <div class="col s12 m6">
       <div class="card">
@@ -202,7 +206,7 @@ export default {
     // },
     markerCoordinates() {},
     displayData() {
-      this.loading = true;
+      // this.loading = true;
       const token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
       let lat = this.currentLocation.lat;
       let lng = this.currentLocation.lng;
@@ -212,11 +216,13 @@ export default {
       axios
         .get(url)
         .then(response => {
+          console.log(response.data.data.iaqi.no2.v);
+          
           // JSON responses are automatically parsed.
           let stationCoords = response.data.data.city.geo;
           let data = response.data.data;
           let aqi = response.data.data.aqi;
-          let iaqi = response.data.data.iaqi.v;
+          let iaqi = response.data.data.iaqi;
           let name = response.data.data.city.name;
           let co = response.data.data.iaqi.co.v;
           let so2 = response.data.data.iaqi.so2.v;
@@ -369,9 +375,9 @@ export default {
           }
         })
         // .bind(this)
-        .catch(() => {
-          this.loading = false;
-        })
+        // .catch(() => {
+        //   this.loading = false;
+        // })
         // .bind(this)
         .catch(error => {
           swal(`${error.message}`);
