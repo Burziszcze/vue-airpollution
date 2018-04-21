@@ -27,6 +27,10 @@
     <div class="col s12 m6">
       <div class="collection">
         <a href="#!" class="collection-item" @click="showModal(info.time)"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
+
+        <a href="#!" class="collection-item" @click="showModal(info.name)"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>sensor name</strong></a>
+        <a href="#!" class="collection-item" @click="showModal(info.temp)"><span v-bind:class="badgecolor.none">{{data.iaqi.t.v}}</span><strong>temperature</strong></a>
+
         <a href="#!" class="collection-item" @click="showModal(info.dominent)"><span v-bind:class="badgecolor.aqi">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
         <a href="#!" class="collection-item" @click="showModal(info.aqi)"><span v-bind:class="badgecolor.aqi">{{data.aqi}}</span><strong>Air quality index (AQI)</strong></a>
         <a href="#!" class="collection-item" @click="showModal(info.co2)"><span v-bind:class="badgecolor.co">{{data.iaqi.co.v}}</span><strong>Carbon monoxide (CO)</strong></a>
@@ -141,6 +145,9 @@ export default {
         aqi: this.data,
         dominentpol: this.data,
         iaqi: {
+          t: {
+            v: this.iaqi
+          },
           co: {
             v: this.iaqi
           },
@@ -221,6 +228,7 @@ export default {
           // JSON responses are automatically parsed.
           let stationCoords = response.data.data.city.geo;
           let data = response.data.data;
+          // let temp = response.data.data.iaqi.t.v;
           let aqi = response.data.data.aqi;
           let iaqi = response.data.data.iaqi.v;
           let name = response.data.data.city.name;
@@ -233,6 +241,7 @@ export default {
 
           // bind for data
           this.stationCoords = stationCoords;
+          // this.temp = temp;
           this.name = name;
           this.data = data;
           this.iaqi = iaqi;
