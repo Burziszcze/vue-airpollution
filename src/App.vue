@@ -34,10 +34,10 @@ export default {
   background-size: auto;
 }
 
-nav {
+/* nav {
   color: #fff;
   font-size: 2.1rem;
-}
+} */
 
 main {
   flex: 1 0 auto;
