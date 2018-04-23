@@ -202,8 +202,8 @@ export default {
     },
     FetchApiData() {
       const token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
-      let lat = this.currentLocation.lat;
-      let lng = this.currentLocation.lng;
+      // let lat = this.currentLocation.lat;
+      // let lng = this.currentLocation.lng;
       // let url = `https://api.waqi.info/feed/geo:${lat};${lng}/?token=${token}`;
       let url = `https://api.waqi.info/feed/here/?token=${token}`;
       axios
@@ -216,21 +216,20 @@ export default {
         });
     },
     displayData() {
-      // this.loading = true;
+      this.loading = true;
       const token = "9648d934b001fa967ab0bebf65abb7f010ffb93d";
+      // sometimes getCurrentPosition() method not working properly so i used API based IP geolocation
       // let lat = this.currentLocation.lat;
       // let lng = this.currentLocation.lng;
-
+      // let url = `https://api.waqi.info/feed/geo:${lat};${lng}/?token=${token}`;
+      
       let url = `https://api.waqi.info/feed/here/?token=${token}`;
       axios
         .get(url)
         .then(response => {
-          console.log(response.data.data.iaqi.no2.v);
-          
           // JSON responses are automatically parsed.
           let stationCoords = response.data.data.city.geo;
           let data = response.data.data;
-          // let temp = response.data.data.iaqi.t.v;
           let aqi = response.data.data.aqi;
           let iaqi = response.data.data.iaqi;
           let name = response.data.data.city.name;
@@ -243,7 +242,6 @@ export default {
 
           // bind for data
           this.stationCoords = stationCoords;
-          // this.temp = temp;
           this.name = name;
           this.data = data;
           this.iaqi = iaqi;
