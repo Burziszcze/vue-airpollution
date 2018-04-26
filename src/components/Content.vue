@@ -29,7 +29,7 @@
         <a href="#!" class="collection-item" @click="showModal(info.time)"><span v-bind:class="badgecolor.none">{{data.time.s}}</span><strong>time from last sensor update</strong></a>
 
         <a href="#!" class="collection-item" @click="showModal(info.name)"><span v-bind:class="badgecolor.none">{{data.city.name}}</span><strong>sensor name</strong></a>
-        <a href="#!" class="collection-item" @click="showModal(info.temp)"><span v-bind:class="badgecolor.none">{{data.iaqi.t.v}}</span><strong>temperature</strong></a>
+        <!-- <a href="#!" class="collection-item" @click="showModal(info.temp)"><span v-bind:class="badgecolor.none">{{data.iaqi.t.v}}</span><strong>temperature</strong></a> -->
 
         <a href="#!" class="collection-item" @click="showModal(info.dominent)"><span v-bind:class="badgecolor.aqi">{{data.dominentpol}}</span><strong>Dominent pollution</strong></a>
         <a href="#!" class="collection-item" @click="showModal(info.aqi)"><span v-bind:class="badgecolor.aqi">{{data.aqi}}</span><strong>Air quality index (AQI)</strong></a>
@@ -56,7 +56,7 @@
     </div>
     <div class="col s12 m6">
       <div class="card">
-        <gmap-map :center="{lat:currentLocation.lat, lng:currentLocation.lng}" :zoom="10" style="width: 100%; height: 475px">
+        <gmap-map :center="{lat:currentLocation.lat, lng:currentLocation.lng}" :zoom="10" style="width: 100%; height: 430px">
           <gmap-marker :key="index" v-for="(m1, m2, index) in markers" :position="{lat:currentLocation.lat, lng:currentLocation.lng}" :clickable="true" :draggable="true" @click="center=m.position"></gmap-marker>
         </gmap-map>
       </div>
@@ -227,6 +227,8 @@ export default {
       axios
         .get(url)
         .then(response => {
+          console.log(response.data);
+          
           // JSON responses are automatically parsed.
           let stationCoords = response.data.data.city.geo;
           let data = response.data.data;
