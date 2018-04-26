@@ -173,6 +173,7 @@ export default {
   },
   mounted() {
     this.geolocation();
+    this.displayData();
     // this.FetchApiData();
   },
   methods: {
