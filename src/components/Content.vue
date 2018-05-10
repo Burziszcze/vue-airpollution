@@ -206,7 +206,7 @@ export default {
       // let lat = this.currentLocation.lat;
       // let lng = this.currentLocation.lng;
       // let url = `https://api.waqi.info/feed/geo:${lat};${lng}/?token=${token}`;
-      let url = `https://api.waqi.info/feed/here/?token=${token}`;
+      // let url = `https://api.waqi.info/feed/here/?token=${token}`;
       axios
         .get(url)
         .then(response => {
@@ -231,17 +231,17 @@ export default {
           console.log(response.data);
           
           // JSON responses are automatically parsed.
-          let stationCoords = response.data.data.city.geo;
-          let data = response.data.data;
-          let aqi = response.data.data.aqi;
-          let iaqi = response.data.data.iaqi;
-          let name = response.data.data.city.name;
-          let co = response.data.data.iaqi.co.v;
-          let so2 = response.data.data.iaqi.so2.v;
-          let no2 = response.data.data.iaqi.no2.v;
-          let o3 = response.data.data.iaqi.o3.v;
-          let pm10 = response.data.data.iaqi.pm10.v;
-          let city = response.data.data.city.geo;
+          let stationCoords = response.data.data.city.geo,
+           data = response.data.data,
+           aqi = response.data.data.aqi,
+           iaqi = response.data.data.iaqi,
+           name = response.data.data.city.name,
+           co = response.data.data.iaqi.co.v,
+           so2 = response.data.data.iaqi.so2.v,
+           no2 = response.data.data.iaqi.no2.v,
+           o3 = response.data.data.iaqi.o3.v,
+           pm10 = response.data.data.iaqi.pm10.v,
+           city = response.data.data.city.geo
 
           // bind for data
           this.stationCoords = stationCoords;
